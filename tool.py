@@ -2,8 +2,15 @@ import requests
 from collections import Counter
 import json
 
-
 def api_get(url):
+    """Make a GET request to the specified URL and return JSON data.
+    
+    Args:
+        url (str): The URL to make the GET request to
+        
+    Returns:
+        dict: JSON response data if successful, None otherwise
+    """
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
@@ -12,13 +19,35 @@ def api_get(url):
         print("Failed to retrieve data", response.status_code)
 
 def print_json_str(str):
+    """Print a JSON string with proper indentation.
+    
+    Args:
+        str: The data to be formatted and printed as JSON
+    """
     print(json.dumps(str, indent=4))
 
 def get_top(list, n):
+    """Get the top n most common items from a list.
+    
+    Args:
+        list: List of items to count
+        n (int): Number of top items to return
+        
+    Returns:
+        list: List of tuples containing (item, count) for top n items
+    """
     counts = Counter(list)
     return counts.most_common(n)
 
 def print_github_user_stats(github_user):
+    """Fetch and print GitHub user statistics.
+    
+    Args:
+        github_user (str): GitHub username
+        
+    Returns:
+        dict: User data from GitHub API
+    """
     # **Name:** Linus Torvalds  
     # - **Username:** torvalds  
     # - **Bio:** Software engineer, creator of Linux  
@@ -43,6 +72,14 @@ def print_github_user_stats(github_user):
     return data
 
 def print_github_user_repos(repos_url):
+    """Fetch and print GitHub user repositories information.
+    
+    Args:
+        repos_url (str): URL to fetch user repositories
+        
+    Returns:
+        tuple: (languages list, starred repositories dict)
+    """
     # ### Repositories
 
     # #### project1
@@ -73,6 +110,13 @@ def print_github_user_repos(repos_url):
     return langages, starred
 
 def print_top_langages(langages, n, total_number_of_repos):
+    """Print the top n most used programming languages with percentages.
+    
+    Args:
+        langages (list): List of programming languages
+        n (int): Number of top languages to display
+        total_number_of_repos (int): Total number of repositories for percentage calculation
+    """
     # ### Most Used Languages
 
     # - Python (80%)  
@@ -84,6 +128,12 @@ def print_top_langages(langages, n, total_number_of_repos):
     print('')
 
 def print_top_starred(starred, n):
+    """Print the top n most starred repositories.
+    
+    Args:
+        starred (dict): Dictionary of repository names and their star counts
+        n (int): Number of top starred repos to display
+    """
     # ### Most Starred Repos
 
     # - project1 – 160K stars  
@@ -97,6 +147,11 @@ def print_top_starred(starred, n):
     print('')
 
 def print_all_github_user_stats(github_user):
+    """Print comprehensive GitHub user statistics including repos, languages, and starred projects.
+    
+    Args:
+        github_user (str): GitHub username to analyze
+    """
     data = print_github_user_stats(github_user)
     langages, starred = print_github_user_repos(data['repos_url'])
     print_top_langages(langages, 2, data['public_repos'])
